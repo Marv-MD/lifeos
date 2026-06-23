@@ -134,11 +134,11 @@
 
   /* ============ SHARED ============ */
   .section { margin-bottom: 26px; }
-  .section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 11px; }
+  .section-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 11px; }
   .section-title { font-size: 12px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-2); }
   .section-hint { font-size: 11px; color: var(--text-3); }
-  .section-hint.link { cursor: pointer; color: var(--accent); }
-  .section-hint.link:hover { text-decoration: underline; }
+  .section-hint.link { cursor: pointer; color: var(--accent-text); font-weight: 600; font-size: 12px; background: var(--accent-soft); border: 0.5px solid var(--accent); padding: 6px 12px; border-radius: 999px; white-space: nowrap; }
+  .section-hint.link:hover { background: var(--accent); color: #fff; }
 
   .card {
     background: var(--surface); border: 0.5px solid var(--border);
@@ -292,7 +292,7 @@
   }
   .field input:focus, .field select:focus { border-color: var(--accent); }
   .emoji-name-row { display: flex; gap: 8px; }
-  .emoji-name-row input.emoji { width: 56px; text-align: center; font-size: 18px; }
+  .emoji-name-row input.emoji { width: 64px; text-align: center; font-size: 26px; padding-left: 4px; padding-right: 4px; }
   .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
   .seg { display: flex; gap: 4px; background: var(--surface-2); padding: 4px; border-radius: var(--radius-sm); }
   .seg-btn { flex: 1; padding: 7px; border-radius: 4px; font-size: 12px; font-weight: 550; color: var(--text-2); cursor: pointer; border: none; background: transparent; font-family: inherit; }
@@ -342,6 +342,14 @@
   .body-entry-main { flex: 1; min-width: 0; }
   .delta-up { color: var(--danger); } .delta-down { color: var(--success); } .delta-flat { color: var(--text-3); }
   .date-input { border: 0.5px solid var(--border-strong); border-radius: var(--radius-sm); padding: 7px 10px; background: var(--surface-2); font-family: inherit; font-size: 13px; color: var(--text); outline: none; }
+  /* Body-Vergleich */
+  .cmp-selects { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+  .cmp-select { flex: 1; min-width: 0; border: 0.5px solid var(--border-strong); border-radius: var(--radius-sm); padding: 10px; background: var(--surface-2); font-family: inherit; font-size: 13px; color: var(--text); outline: none; }
+  .cmp-pose { font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin: 0 0 6px; }
+  .cmp-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .cmp-pair img, .cmp-empty { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 9px; background: var(--surface-2); border: 0.5px solid var(--border); }
+  .cmp-empty { display: flex; align-items: center; justify-content: center; color: var(--text-3); font-size: 11px; }
+  .cmp-date { font-size: 10px; color: var(--text-3); text-align: center; margin-top: 3px; }
 
   /* ============ FINANZEN ============ */
   .range-tabs { display: flex; gap: 4px; background: var(--surface-2); padding: 4px; border-radius: var(--radius-sm); width: fit-content; }
@@ -400,16 +408,28 @@
     .mobile-nav {
       display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
       background: var(--sidebar); border-top: 0.5px solid var(--border);
-      padding: 8px 4px calc(8px + env(safe-area-inset-bottom)); justify-content: space-around;
+      padding: 8px 2px calc(10px + env(safe-area-inset-bottom)); justify-content: space-around;
     }
-    .mnav-item { flex: 1; background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--text-3); font-size: 9.5px; font-family: inherit; cursor: pointer; padding: 4px 0; }
-    .mnav-item .nav-icon { width: 20px; height: 20px; opacity: 0.7; }
+    .mnav-item { flex: 1; background: none; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--text-3); font-size: 10px; font-family: inherit; cursor: pointer; padding: 7px 0 3px; min-height: 54px; border-radius: 10px; }
+    .mnav-item:active { background: rgba(0,0,0,0.06); }
+    .mnav-item .nav-icon { width: 25px; height: 25px; opacity: 0.7; }
     .mnav-item.active { color: var(--accent); }
     .mnav-item.active .nav-icon { opacity: 1; }
     .stat-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .stat-card { padding: 12px; }
     .stat-card .big-number { font-size: 22px; }
     .greeting { font-size: 22px; }
+    /* größere Touch-Targets auf dem Handy */
+    .btn { padding: 11px 16px; font-size: 14px; }
+    .btn-sm { padding: 9px 14px; font-size: 13px; }
+    .section-hint.link { padding: 9px 15px; font-size: 13.5px; }
+    .seg-btn { padding: 11px 8px; font-size: 13px; }
+    .mini-btn { width: 38px; height: 38px; }
+    .wd-btn { padding: 9px 12px; font-size: 13px; }
+    .range-tab { padding: 9px 15px; font-size: 13px; }
+    .check-item { padding: 14px 16px; }
+    .int-done-btn { width: 44px; height: 44px; }
+    .mood-btn { max-width: none; }
   }
 </style>
 </head>
@@ -472,19 +492,27 @@
   <div class="modal">
     <h2 id="habitModalTitle">Neuer Habit</h2>
     <div class="field">
-      <label>Emoji & Name</label>
+      <label>Icon (Emoji) & Name</label>
       <div class="emoji-name-row">
-        <input type="text" class="emoji" id="habitEmoji" maxlength="2" placeholder="✨">
+        <input type="text" class="emoji" id="habitEmoji" inputmode="text" placeholder="😀">
         <input type="text" id="habitName" placeholder="z. B. Meditieren">
       </div>
+      <div style="font-size:11px; color:var(--text-3); margin-top:6px;">Tipp: ins Emoji-Feld tippen und über die 😀-Taste der Tastatur ein Symbol wählen.</div>
     </div>
     <div class="field">
       <label>Häufigkeit</label>
       <div class="seg" id="habitFreqSeg">
         <button class="seg-btn active" data-freq="daily">Täglich</button>
-        <button class="seg-btn" data-freq="custom">Bestimmte Tage</button>
+        <button class="seg-btn" data-freq="custom">Wochentage</button>
+        <button class="seg-btn" data-freq="week">x / Woche</button>
       </div>
       <div class="weekday-pick" id="habitWeekdays" style="margin-top:10px; display:none;"></div>
+      <div id="habitPerWeek" style="margin-top:12px; display:none; align-items:center; gap:12px;">
+        <button class="btn btn-sm" id="pwMinus" type="button">−</button>
+        <span id="pwVal" style="font-weight:650; font-size:18px; min-width:26px; text-align:center;">3</span>
+        <span style="color:var(--text-3); font-size:13px;">× pro Woche</span>
+        <button class="btn btn-sm" id="pwPlus" type="button" style="margin-left:auto;">+</button>
+      </div>
     </div>
     <div class="field" id="habitRoutineField">
       <label>Teil der Morgenroutine?</label>
@@ -508,7 +536,7 @@
     <div class="field">
       <label>Emoji & Name</label>
       <div class="emoji-name-row">
-        <input type="text" class="emoji" id="stepEmoji" maxlength="2" placeholder="💧">
+        <input type="text" class="emoji" id="stepEmoji" inputmode="text" placeholder="💧">
         <input type="text" id="stepName" placeholder="z. B. Bett machen">
       </div>
     </div>
@@ -528,7 +556,7 @@
     <div class="field">
       <label>Emoji & Name</label>
       <div class="emoji-name-row">
-        <input type="text" class="emoji" id="intEmoji" maxlength="2" placeholder="🔁">
+        <input type="text" class="emoji" id="intEmoji" inputmode="text" placeholder="🔁">
         <input type="text" id="intName" placeholder="z. B. Auto waschen">
       </div>
     </div>
@@ -606,6 +634,7 @@ const WEEKLY_TASKS = [
   { id:'fotos',    emoji:'📷',  name:'Fotos aussortiert' },
   { id:'notizen',  emoji:'🗒️', name:'Notizen aufgeräumt' },
   { id:'finanzen', emoji:'💶',  name:'Finanzfluss Copilot durchgegangen' },
+  { id:'termine',  emoji:'📅',  name:'Termine kommende Woche geplant' },
 ];
 
 // Body-Update: Foto-Perspektiven & Körpermaße
@@ -756,9 +785,27 @@ function getDay(key, create=false) {
 function habitById(id) { return data.habits.find(h => h.id === id); }
 function activeHabits() { return data.habits.filter(h => !h.archived); }
 
+function isPerWeek(h){ return h.freq && typeof h.freq==='object' && !Array.isArray(h.freq); }
+function weekStartMon(d){ return addDays(d, -weekdayMon(d)); }
+function habitWeekCount(h, date){ const s=weekStartMon(date); let c=0; for(let i=0;i<7;i++){ if(isDoneOn(dkey(addDays(s,i)),'h:'+h.id)) c++; } return c; }
 function isDue(habit, date) {
   if (habit.freq === 'daily') return true;
   if (Array.isArray(habit.freq)) return habit.freq.includes(weekdayMon(date));
+  return true; // perWeek: für Tages-Logik separat (dueOnDate)
+}
+// Tag-genaue Statistik (Heatmap/Review/Stats): perWeek zählt nur an erledigten Tagen → faire Quote
+function dayDone(h,date){ return isDoneOn(dkey(date),'h:'+h.id); }
+function dayDue(h,date){
+  if (isPerWeek(h)) return dayDone(h,date);
+  if (h.freq==='daily') return true;
+  if (Array.isArray(h.freq)) return h.freq.includes(weekdayMon(date));
+  return true;
+}
+// Wird der Habit an diesem Tag in Heute/Habits angezeigt?
+function dueOnDate(h,date){
+  if (isPerWeek(h)) return dayDone(h,date) || habitWeekCount(h,date) < h.freq.perWeek;
+  if (h.freq==='daily') return true;
+  if (Array.isArray(h.freq)) return h.freq.includes(weekdayMon(date));
   return true;
 }
 function isDoneOn(key, doneKey) { return !!(data.days[key] && data.days[key].done && data.days[key].done[doneKey]); }
@@ -768,7 +815,16 @@ function setDone(dateKey, doneKey, val) {
 }
 
 // Streak: aufeinanderfolgende fällige Tage bis (und mit) heute, an denen erledigt
+function habitWeekStreak(h){
+  const N=h.freq.perWeek; let streak=0;
+  let mon=weekStartMon(new Date());
+  if(habitWeekCount(h,mon) < N) mon=addDays(mon,-7); // laufende Woche bricht nicht sofort
+  let guard=0;
+  while(guard++<520){ if(habitWeekCount(h,mon)>=N){ streak++; mon=addDays(mon,-7); } else break; }
+  return streak;
+}
 function habitStreak(habit) {
+  if (isPerWeek(habit)) return habitWeekStreak(habit);
   let streak = 0;
   let d = new Date();
   // Wenn heute fällig aber noch nicht erledigt, zählen wir ab gestern (Streak bricht nicht sofort)
@@ -782,7 +838,17 @@ function habitStreak(habit) {
   }
   return streak;
 }
+function habitWeekBest(h){
+  const N=h.freq.perWeek;
+  const keys=Object.keys(data.days).filter(k=>data.days[k].done && data.days[k].done['h:'+h.id]).sort();
+  if(!keys.length) return 0;
+  let mon=weekStartMon(parseDkey(keys[0])); const end=weekStartMon(new Date());
+  let best=0,cur=0;
+  for(let m=new Date(mon); m<=end; m=addDays(m,7)){ if(habitWeekCount(h,m)>=N){ cur++; if(cur>best)best=cur; } else cur=0; }
+  return best;
+}
 function habitBestStreak(habit) {
+  if (isPerWeek(habit)) return habitWeekBest(habit);
   // Über alle erfassten Tage
   const keys = Object.keys(data.days).filter(k => data.days[k].done && data.days[k].done['h:'+habit.id]).sort();
   if (!keys.length) return 0;
@@ -900,7 +966,7 @@ function renderToday() {
 
   // Habits, die HEUTE fällig sind und NICHT in der Routine stehen
   const routineHabitIds = new Set(data.routine.filter(r=>r.type==='habit').map(r=>r.habitId));
-  const todayHabits = activeHabits().filter(h => isDue(h, d) && !routineHabitIds.has(h.id));
+  const todayHabits = activeHabits().filter(h => dueOnDate(h, d) && !routineHabitIds.has(h.id));
 
   const routineDoneCount = routineItems.filter(i => day.done[i.doneKey]).length;
   const habitDoneCount = todayHabits.filter(h => day.done['h:'+h.id]).length;
@@ -914,8 +980,7 @@ function renderToday() {
     </div>`;
 
   const html = `
-    <div class="greeting">${greetingText(d)} 👋</div>
-    <div class="greeting-sub">${fmtLong(d)}</div>
+    <div class="greeting" style="margin-bottom:14px;">${greetingText(d)} 👋</div>
     ${dateNav}
 
     <div class="section">
@@ -992,8 +1057,14 @@ function checkRow(item, day) {
   const checked = !!day.done[item.doneKey];
   let sub = '';
   if (item.isHabit) {
-    const s = habitStreak(item.habit);
-    sub = `<div class="check-sub">${s>0?`<span class="streak-badge">🔥 ${s} Tage</span>`:'<span>Habit</span>'}</div>`;
+    const h = item.habit;
+    if (isPerWeek(h)) {
+      const wc = habitWeekCount(h, viewDate||new Date()), N = h.freq.perWeek, met = wc>=N;
+      sub = `<div class="check-sub"><span class="${met?'streak-badge':''}">${wc}/${N} diese Woche${met?' ✓':''}</span></div>`;
+    } else {
+      const s = habitStreak(h);
+      sub = `<div class="check-sub">${s>0?`<span class="streak-badge">🔥 ${s} Tage</span>`:'<span>Habit</span>'}</div>`;
+    }
   } else {
     sub = `<div class="check-sub"><span class="link-badge">Routine</span></div>`;
   }
@@ -1030,12 +1101,15 @@ function renderHabits() {
   const habits = activeHabits();
 
   const rows = habits.map(h => {
-    const due = isDue(h, today);
+    const pw = isPerWeek(h);
+    const due = dueOnDate(h, today);
     const doneToday = isDoneOn(todayKey(),'h:'+h.id);
     const streak = habitStreak(h);
     const best = habitBestStreak(h);
     const week = last7(h);
-    const freqLabel = h.freq==='daily' ? 'Täglich' : (Array.isArray(h.freq) ? h.freq.map(i=>WD_SHORT[i]).join(' ') : '');
+    const su = pw ? ' Wo.' : '';
+    const wc = pw ? habitWeekCount(h, today) : 0;
+    const freqLabel = pw ? `${h.freq.perWeek}× pro Woche` : (h.freq==='daily' ? 'Täglich' : (Array.isArray(h.freq) ? h.freq.map(i=>WD_SHORT[i]).join(' ') : ''));
     return `
       <div class="check-item ${doneToday?'checked':''}" data-habit="${h.id}" ${!due?'style="opacity:0.5"':''}>
         <div class="check-box" data-toggle="${h.id}">${CHECK_SVG}</div>
@@ -1043,10 +1117,11 @@ function renderHabits() {
         <div class="check-main">
           <div class="check-label">${escapeHtml(h.name)}</div>
           <div class="check-sub">
-            ${streak>0?`<span class="streak-badge">🔥 ${streak}</span>`:''}
+            ${streak>0?`<span class="streak-badge">🔥 ${streak}${su}</span>`:''}
             <span>${freqLabel}</span>
-            ${best>0?`<span>· Rekord ${best}</span>`:''}
-            ${!due?'<span>· heute frei</span>':''}
+            ${pw?`<span>· ${wc}/${h.freq.perWeek} diese Woche</span>`:''}
+            ${best>0?`<span>· Rekord ${best}${su}</span>`:''}
+            ${(!due&&!pw)?'<span>· heute frei</span>':''}
           </div>
         </div>
         <div class="week-dots">
@@ -1107,8 +1182,8 @@ function renderHeatmap() {
     for (let dow=0; dow<7; dow++) {
       const d = addDays(startMon, w*7 + dow);
       if (d > today) { col += `<div class="heat-cell" style="visibility:hidden"></div>`; continue; }
-      const dueH = habits.filter(h => isDue(h,d));
-      const doneH = dueH.filter(h => isDoneOn(dkey(d),'h:'+h.id));
+      const dueH = habits.filter(h => dayDue(h,d));
+      const doneH = dueH.filter(h => dayDone(h,d));
       let lvl = 0;
       if (dueH.length) {
         const r = doneH.length/dueH.length;
@@ -1124,7 +1199,9 @@ function renderHeatmap() {
 /* ---------------- KÖRPER / BODY-UPDATE ---------------- */
 let bodyView = 'list'; // 'list' oder entry-id
 
+let bodyCmpA=null, bodyCmpB=null;
 function renderBody() {
+  if (bodyView === 'compare') { bodyCompareView(); return; }
   if (bodyView !== 'list') {
     const entry = data.body.find(b => b.id === bodyView);
     if (entry) { bodyEditView(entry); return; }
@@ -1184,6 +1261,7 @@ function bodyListView() {
     <div class="section">
       <div class="section-head"><div class="section-title">Körper-Verlauf</div><div class="section-hint link" id="addBodyBtn">+ Update</div></div>
       ${kpis}
+      ${entries.length>=2?`<button class="btn btn-sm" id="cmpBtn" style="margin-top:12px;">📷 Fotos & Werte vergleichen</button>`:''}
     </div>
     ${charts}
     <div class="section">
@@ -1192,8 +1270,59 @@ function bodyListView() {
     </div>
   `;
   $('#addBodyBtn').onclick = addBodyEntry;
+  const cmp=$('#cmpBtn'); if(cmp) cmp.onclick=()=>{ bodyView='compare'; renderBody(); $('#content').scrollTo(0,0); };
   $$('#page-body [data-bopen]').forEach(el=> el.onclick=()=>{ bodyView=el.dataset.bopen; renderBody(); $('#content').scrollTo(0,0); });
   if (charts) drawBodyChart();
+}
+
+function bodyCompareView(){
+  $('#pageMeta').textContent = 'Vergleich';
+  const entries = [...data.body].sort((a,b)=>a.date.localeCompare(b.date));
+  if (entries.length < 2) { bodyView='list'; bodyListView(); return; }
+  if (!bodyCmpA || !entries.find(e=>e.id===bodyCmpA)) bodyCmpA = entries[0].id;
+  if (!bodyCmpB || !entries.find(e=>e.id===bodyCmpB)) bodyCmpB = entries[entries.length-1].id;
+  const A = data.body.find(e=>e.id===bodyCmpA), B = data.body.find(e=>e.id===bodyCmpB);
+  const dlabel = e => `${fmtShort(parseDkey(e.date))} ${parseDkey(e.date).getFullYear()}`;
+  const opts = sel => entries.map(e=>`<option value="${e.id}" ${e.id===sel?'selected':''}>${dlabel(e)}</option>`).join('');
+
+  const poseRows = POSES.map(p=>{
+    const a=A.photos&&A.photos[p.id], b=B.photos&&B.photos[p.id];
+    if(!a && !b) return '';
+    return `<div style="margin-bottom:6px;"><div class="cmp-pose">${p.label}</div><div class="cmp-pair">
+      <div>${a?`<img src="${a}">`:`<div class="cmp-empty">kein Foto</div>`}<div class="cmp-date">${dlabel(A)}</div></div>
+      <div>${b?`<img src="${b}">`:`<div class="cmp-empty">kein Foto</div>`}<div class="cmp-date">${dlabel(B)}</div></div>
+    </div></div>`;
+  }).join('');
+
+  const statRow = (label, av, bv, unit) => {
+    if (av==null && bv==null) return '';
+    const d = (av!=null&&bv!=null) ? Math.round((bv-av)*10)/10 : null;
+    const cls = d==null ? '' : (d<0?'delta-down':d>0?'delta-up':'delta-flat');
+    return `<div class="hist-row"><span style="flex:1;">${label}</span>
+      <span style="color:var(--text-3);">${av!=null?av+unit:'–'} → <b style="color:var(--text);">${bv!=null?bv+unit:'–'}</b></span>
+      ${d!=null?`<span class="${cls}" style="width:70px; text-align:right;">${d>0?'+':''}${d}${unit}</span>`:'<span style="width:70px;"></span>'}</div>`;
+  };
+  const stats = statRow('Gewicht', bodyNum(A.weight), bodyNum(B.weight), ' kg')
+    + statRow('KFA', bodyNum(A.kfa), bodyNum(B.kfa), ' %')
+    + MEASURES.map(m=>statRow(m.label, bodyNum((A.measures||{})[m.id]), bodyNum((B.measures||{})[m.id]), ' cm')).join('');
+
+  $('#page-body').innerHTML = `
+    <div class="section">
+      <div style="display:flex; align-items:center; margin-bottom:14px;">
+        <button class="btn btn-ghost btn-sm" id="cmpBack">← Übersicht</button>
+      </div>
+      <div class="cmp-selects">
+        <select class="cmp-select" id="cmpSelA">${opts(bodyCmpA)}</select>
+        <span style="color:var(--text-3);">→</span>
+        <select class="cmp-select" id="cmpSelB">${opts(bodyCmpB)}</select>
+      </div>
+    </div>
+    <div class="section">${poseRows || '<div class="empty-state"><div class="big">📷</div>In diesen beiden Updates gibt es keine Fotos.</div>'}</div>
+    ${stats?`<div class="section"><div class="section-head"><div class="section-title">Werte-Vergleich</div></div><div class="card">${stats}</div></div>`:''}
+  `;
+  $('#cmpBack').onclick=()=>{ bodyView='list'; renderBody(); $('#content').scrollTo(0,0); };
+  $('#cmpSelA').onchange=(e)=>{ bodyCmpA=e.target.value; bodyCompareView(); };
+  $('#cmpSelB').onchange=(e)=>{ bodyCmpB=e.target.value; bodyCompareView(); };
 }
 
 function addBodyEntry() {
@@ -1444,7 +1573,7 @@ function renderReview() {
   for (let i=0;i<7;i++){
     const d = addDays(range.start, i);
     if (d > new Date()) break;
-    activeHabits().forEach(h=>{ if(isDue(h,d)){ due++; if(isDoneOn(dkey(d),'h:'+h.id)) done++; } });
+    activeHabits().forEach(h=>{ if(dayDue(h,d)){ due++; if(dayDone(h,d)) done++; } });
   }
   const pct = due? Math.round(done/due*100):0;
   // Stimmung Ø
@@ -1667,7 +1796,7 @@ function openIntModal(id){
 function closeIntModal(){ $('#intModal').classList.remove('show'); }
 function saveInt(){
   const name=$('#intName').value.trim(); if(!name){ $('#intName').focus(); return; }
-  const emoji=$('#intEmoji').value.trim()||'🔁';
+  const emoji=firstEmoji($('#intEmoji').value)||'🔁';
   if(editingIntId){ const it=data.intervals.find(x=>x.id===editingIntId); it.name=name; it.emoji=emoji; }
   else { const log=[]; const ld=$('#intLastDate').value; if(ld) log.push(ld); data.intervals.push({ id:uid('i'), name, emoji, log }); }
   save(); closeIntModal(); renderIntervals();
@@ -1912,8 +2041,8 @@ function drawStatsCharts() {
   for (let i=days-1;i>=0;i--){
     const d=addDays(new Date(),-i);
     labels.push(`${d.getDate()}.${d.getMonth()+1}`);
-    const due=habits.filter(h=>isDue(h,d));
-    const done=due.filter(h=>isDoneOn(dkey(d),'h:'+h.id));
+    const due=habits.filter(h=>dayDue(h,d));
+    const done=due.filter(h=>dayDone(h,d));
     comp.push(due.length? Math.round(done.length/due.length*100):null);
     const dd=data.days[dkey(d)];
     mood.push(dd&&dd.mood?dd.mood:null);
@@ -2043,7 +2172,7 @@ function addHabitToRoutine(){
 }
 
 /* ---------------- HABIT MODAL ---------------- */
-let editingHabitId=null, modalFreq='daily', modalWeekdays=[], modalRoutine='no';
+let editingHabitId=null, modalFreq='daily', modalWeekdays=[], modalRoutine='no', modalPerWeek=3;
 function openHabitModal(id){
   editingHabitId=id;
   const m=$('#habitModal');
@@ -2053,13 +2182,15 @@ function openHabitModal(id){
     const h=habitById(id);
     $('#habitModalTitle').textContent='Habit bearbeiten';
     $('#habitEmoji').value=h.emoji||''; $('#habitName').value=h.name||'';
-    if(h.freq==='daily'){ modalFreq='daily'; modalWeekdays=[]; } else { modalFreq='custom'; modalWeekdays=[...h.freq]; }
+    if(h.freq==='daily'){ modalFreq='daily'; modalWeekdays=[]; }
+    else if(isPerWeek(h)){ modalFreq='week'; modalPerWeek=h.freq.perWeek||3; }
+    else { modalFreq='custom'; modalWeekdays=[...h.freq]; }
     modalRoutine = data.routine.some(r=>r.type==='habit'&&r.habitId===id)?'yes':'no';
     $('#habitDelete').style.display='inline-flex';
   } else {
     $('#habitModalTitle').textContent='Neuer Habit';
     $('#habitEmoji').value=''; $('#habitName').value='';
-    modalFreq='daily'; modalWeekdays=[]; modalRoutine='no';
+    modalFreq='daily'; modalWeekdays=[]; modalRoutine='no'; modalPerWeek=3;
     $('#habitDelete').style.display='none';
   }
   syncHabitModalUI();
@@ -2069,6 +2200,8 @@ function openHabitModal(id){
 function syncHabitModalUI(){
   $$('#habitFreqSeg .seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.freq===modalFreq));
   $('#habitWeekdays').style.display = modalFreq==='custom'?'flex':'none';
+  $('#habitPerWeek').style.display = modalFreq==='week'?'flex':'none';
+  $('#pwVal').textContent = modalPerWeek;
   $$('#habitWeekdays .wd-btn').forEach(b=>b.classList.toggle('on',modalWeekdays.includes(+b.dataset.wd)));
   $$('#habitRoutineSeg .seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.routine===modalRoutine));
 }
@@ -2076,8 +2209,11 @@ function closeHabitModal(){ $('#habitModal').classList.remove('show'); }
 function saveHabit(){
   const name=$('#habitName').value.trim();
   if(!name){ $('#habitName').focus(); return; }
-  const emoji=$('#habitEmoji').value.trim()||'✨';
-  const freq = modalFreq==='daily' ? 'daily' : (modalWeekdays.length?[...modalWeekdays].sort((a,b)=>a-b):'daily');
+  const emoji=firstEmoji($('#habitEmoji').value)||'✨';
+  let freq;
+  if(modalFreq==='daily') freq='daily';
+  else if(modalFreq==='week') freq={perWeek: Math.min(7, Math.max(1, modalPerWeek||3))};
+  else freq = modalWeekdays.length?[...modalWeekdays].sort((a,b)=>a-b):'daily';
   if(editingHabitId){
     const h=habitById(editingHabitId);
     h.name=name; h.emoji=emoji; h.freq=freq;
@@ -2113,7 +2249,7 @@ function closeStepModal(){ $('#stepModal').classList.remove('show'); }
 function saveStep(){
   const name=$('#stepName').value.trim();
   if(!name){ $('#stepName').focus(); return; }
-  const emoji=$('#stepEmoji').value.trim()||'•';
+  const emoji=firstEmoji($('#stepEmoji').value)||'•';
   if(editingStepIdx!=null){ const it=data.routine[editingStepIdx]; it.name=name; it.emoji=emoji; }
   else data.routine.push({id:uid('s'),type:'step',name,emoji});
   save(); closeStepModal(); renderSettings();
@@ -2157,6 +2293,8 @@ function load2(){ // nach Import Sicherheits-Defaults
 function autoResize(el){ if(el&&el.tagName==='TEXTAREA'){ el.style.height='auto'; el.style.height=(el.scrollHeight+2)+'px'; } }
 function escapeHtml(s){ return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function escapeAttr(s){ return escapeHtml(s).replace(/'/g,'&#39;'); }
+// Erstes Emoji/Graphem aus Eingabe (vermeidet abgeschnittene Mehrzeichen-Emojis)
+function firstEmoji(s){ s=(s||'').trim(); if(!s) return ''; try{ const seg=new Intl.Segmenter('de',{granularity:'grapheme'}); for(const x of seg.segment(s)) return x.segment; }catch(e){} return Array.from(s)[0]||''; }
 
 /* ---------------- INIT ---------------- */
 function bindModals(){
@@ -2165,6 +2303,8 @@ function bindModals(){
   $('#habitSave').onclick=saveHabit;
   $('#habitDelete').onclick=deleteHabit;
   $$('#habitFreqSeg .seg-btn').forEach(b=>b.onclick=()=>{ modalFreq=b.dataset.freq; if(modalFreq==='custom'&&!modalWeekdays.length) modalWeekdays=[0,1,2,3,4]; syncHabitModalUI(); });
+  $('#pwMinus').onclick=()=>{ modalPerWeek=Math.max(1,modalPerWeek-1); syncHabitModalUI(); };
+  $('#pwPlus').onclick=()=>{ modalPerWeek=Math.min(7,modalPerWeek+1); syncHabitModalUI(); };
   $$('#habitRoutineSeg .seg-btn').forEach(b=>b.onclick=()=>{ modalRoutine=b.dataset.routine; syncHabitModalUI(); });
   $('#habitWeekdays').onclick=(e)=>{ const b=e.target.closest('.wd-btn'); if(!b) return; const w=+b.dataset.wd; if(modalWeekdays.includes(w)) modalWeekdays=modalWeekdays.filter(x=>x!==w); else modalWeekdays.push(w); syncHabitModalUI(); };
   $('#habitName').onkeydown=(e)=>{ if(e.key==='Enter') saveHabit(); };
