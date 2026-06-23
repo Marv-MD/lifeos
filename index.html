@@ -175,6 +175,8 @@
 
   .empty-state { text-align: center; color: var(--text-3); padding: 44px 20px; font-size: 13px; }
   .empty-state .big { font-size: 30px; margin-bottom: 10px; }
+  .backup-warn { background: var(--warn-soft); border: 0.5px solid var(--warn); border-radius: var(--radius); padding: 12px 14px; font-size: 12.5px; color: var(--text); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .backup-warn .bw-text { flex: 1; min-width: 140px; }
 
   /* ============ GREETING ============ */
   .greeting { font-size: 26px; font-weight: 650; letter-spacing: -0.02em; margin-bottom: 2px; }
@@ -982,6 +984,7 @@ function renderToday() {
   const html = `
     <div class="greeting" style="margin-bottom:14px;">${greetingText(d)} 👋</div>
     ${dateNav}
+    ${backupBanner()}
 
     <div class="section">
       <div class="section-head"><div class="section-title">Wie fühlst du dich?</div></div>
@@ -1050,6 +1053,7 @@ function renderToday() {
   if (next) next.onclick = () => { if(!isToday){ viewDate = addDays(d,1); if(sameYMD(viewDate,new Date())) viewDate=null; renderToday(); } };
   if (tod) tod.onclick = () => { viewDate=null; renderToday(); };
   if (gj) gj.onclick = () => { journalDate = key; switchPage('journal'); };
+  const bn=$('#backupNow'); if(bn) bn.onclick=exportData;
   $$('#page-today [data-goto]').forEach(el=> el.onclick=()=>switchPage(el.dataset.goto));
 }
 
@@ -1092,6 +1096,16 @@ function bindCheckRows(root, dateKey) {
 function journalFilled(day) {
   const j = day.journal||{};
   return !!(j.highlight || j.notes || (j.gratitude||[]).some(g=>g));
+}
+function daysSinceBackup(){ const t=data.meta && data.meta.lastBackup; if(!t) return null; return Math.floor((Date.now()-t)/86400000); }
+function backupBanner(){
+  const d = daysSinceBackup();
+  if (d!==null && d < 7) return '';
+  const txt = d===null ? 'Du hast noch kein Backup gesichert' : `Letztes Backup vor ${d} Tagen`;
+  return `<div class="backup-warn">
+    <span class="bw-text">⚠️ ${txt}. iOS löscht lokale Daten nach ~7 Tagen ohne Nutzung — sichere regelmäßig.</span>
+    <button class="btn btn-sm" id="backupNow">Jetzt sichern</button>
+  </div>`;
 }
 
 /* ---------------- HABITS ---------------- */
@@ -2274,12 +2288,14 @@ function exportData(){
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob); const a=document.createElement('a');
   a.href=url; a.download=`lifeos-backup-${todayKey()}.json`; a.click(); URL.revokeObjectURL(url);
+  data.meta.lastBackup = Date.now(); save();
+  if (currentPage==='today') renderToday();
 }
 function importData(e){
   const file=e.target.files[0]; if(!file) return;
   const r=new FileReader();
   r.onload=ev=>{ try{ const d=JSON.parse(ev.target.result);
-    if(d.habits&&d.days){ if(confirm('Aktuelle Daten überschreiben? Tipp: vorher Export machen.')){ data=d; load2(); applyTheme(); renderNav(); switchPage('today'); alert('Import erfolgreich!'); } }
+    if(d.habits&&d.days){ if(confirm('Aktuelle Daten überschreiben? Tipp: vorher Export machen.')){ data=d; data.meta=data.meta||{}; data.meta.lastBackup=Date.now(); load2(); applyTheme(); renderNav(); switchPage('today'); alert('Import erfolgreich!'); } }
     else alert('Datei sieht nicht wie ein LifeOS-Backup aus.');
   }catch(err){ alert('Import fehlgeschlagen: '+err.message); } };
   r.readAsText(file); e.target.value='';
@@ -2352,6 +2368,10 @@ init();
 // PWA: Service-Worker registrieren (nur über http/https, nicht bei file://)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+// Dauerhaften Speicher anfordern, damit iOS/Safari die Daten nicht nach ~7 Tagen löscht
+if (navigator.storage && navigator.storage.persist) {
+  navigator.storage.persist().catch(() => {});
 }
 </script>
 </body>

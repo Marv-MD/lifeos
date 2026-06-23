@@ -1,5 +1,5 @@
 // LifeOS Service Worker — Offline-Betrieb
-const CACHE = 'lifeos-v3';
+const CACHE = 'lifeos-v4';
 const ASSETS = [
   './',
   './index.html',
