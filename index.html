@@ -608,6 +608,7 @@
 </div>
 
 <input type="file" id="importFile" accept=".json" style="display:none">
+<input type="file" id="mergeFile" accept=".json" style="display:none">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
@@ -2140,8 +2141,12 @@ function renderSettings() {
           <button class="btn btn-sm" id="exportBtn2">Export</button>
         </div>
         <div class="setting-row">
-          <div><div class="label">Daten importieren</div><div class="desc">Backup wiederherstellen</div></div>
+          <div><div class="label">Daten importieren</div><div class="desc">Backup wiederherstellen (ersetzt alles)</div></div>
           <button class="btn btn-sm" id="importBtn2">Import</button>
+        </div>
+        <div class="setting-row">
+          <div><div class="label">Zusammenführen</div><div class="desc">Finanzen, Intervalle &amp; Verlauf aus Backup — ohne Habits/Routine zu überschreiben</div></div>
+          <button class="btn btn-sm" id="mergeBtn2">Mergen</button>
         </div>
         <div class="setting-row">
           <div><div class="label" style="color:var(--danger)">Alle Daten löschen</div><div class="desc">Setzt die App komplett zurück</div></div>
@@ -2165,6 +2170,7 @@ function renderSettings() {
   $('#themeToggle2').onclick=toggleTheme;
   $('#exportBtn2').onclick=exportData;
   $('#importBtn2').onclick=()=>$('#importFile').click();
+  $('#mergeBtn2').onclick=()=>$('#mergeFile').click();
   $('#resetBtn').onclick=()=>{ if(confirm('Wirklich ALLE Daten löschen? Mache vorher am besten einen Export.')){ localStorage.removeItem(KEY); load(); applyTheme(); switchPage('today'); } };
 }
 
@@ -2304,6 +2310,29 @@ function load2(){ // nach Import Sicherheits-Defaults
   data.habits=data.habits||[]; data.routine=data.routine||[]; data.days=data.days||{}; data.weeks=data.weeks||{}; data.body=data.body||[]; data.intervals=data.intervals||[]; data.finance=data.finance||{months:{}}; data.finance.months=data.finance.months||{}; data.meta=data.meta||{theme:'light'};
   localStorage.setItem(KEY, JSON.stringify(data));
 }
+// Zusammenführen: bringt Finanzen/Intervalle/Body/Verlauf aus der Datei ein,
+// OHNE Habits, Morgenroutine, Theme zu überschreiben. Nicht-destruktiv (bestehendes gewinnt).
+function mergeFromFile(e){
+  const file=e.target.files[0]; if(!file){ return; }
+  const r=new FileReader();
+  r.onload=ev=>{ try{
+    const d=JSON.parse(ev.target.result);
+    let added=[];
+    // Finanzen: fehlende Monate ergänzen (bestehende behalten)
+    if(d.finance && d.finance.months){ data.finance=data.finance||{months:{}}; data.finance.months=data.finance.months||{}; let n=0; for(const m in d.finance.months){ if(!(m in data.finance.months)){ data.finance.months[m]=d.finance.months[m]; n++; } } if(n) added.push(n+' Finanz-Monate'); }
+    // Tage (Journal/Stimmung/Häkchen) & Wochen (Review): fehlende ergänzen
+    if(d.days){ data.days=data.days||{}; let n=0; for(const k in d.days){ if(!(k in data.days)){ data.days[k]=d.days[k]; n++; } } if(n) added.push(n+' Tage'); }
+    if(d.weeks){ data.weeks=data.weeks||{}; let n=0; for(const k in d.weeks){ if(!(k in data.weeks)){ data.weeks[k]=d.weeks[k]; n++; } } if(n) added.push(n+' Review-Wochen'); }
+    // Intervalle: nach Name zusammenführen (Verlauf vereinen), neue ergänzen
+    if(Array.isArray(d.intervals)){ data.intervals=data.intervals||[]; let n=0; d.intervals.forEach(bi=>{ const cur=data.intervals.find(x=>x.name===bi.name); if(cur){ cur.log=[...new Set([...(cur.log||[]),...(bi.log||[])])].sort(); } else { data.intervals.push({id:uid('i'), name:bi.name, emoji:bi.emoji, log:[...(bi.log||[])]}); n++; } }); if(n) added.push(n+' neue Intervalle'); }
+    // Body-Updates: nach Datum ergänzen
+    if(Array.isArray(d.body)){ data.body=data.body||[]; let n=0; d.body.forEach(be=>{ if(!data.body.find(x=>x.date===be.date)){ data.body.push({...be, id:uid('b')}); n++; } }); if(n) added.push(n+' Body-Updates'); }
+    save();
+    renderNav(); switchPage('today');
+    alert('Zusammengeführt ✓ — Habits & Morgenroutine unverändert.\n\nÜbernommen: ' + (added.length?added.join(', '):'nichts Neues (alles war schon vorhanden)') + '.');
+  }catch(err){ alert('Zusammenführen fehlgeschlagen: '+err.message); } };
+  r.readAsText(file); e.target.value='';
+}
 
 /* ---------------- HELPER ---------------- */
 function autoResize(el){ if(el&&el.tagName==='TEXTAREA'){ el.style.height='auto'; el.style.height=(el.scrollHeight+2)+'px'; } }
@@ -2358,6 +2387,7 @@ function init(){
   $('#exportBtn').onclick=exportData;
   $('#importBtn').onclick=()=>$('#importFile').click();
   $('#importFile').onchange=importData;
+  $('#mergeFile').onchange=mergeFromFile;
   $('#themeBtn').onclick=toggleTheme;
   switchPage('today');
   showSaved();
